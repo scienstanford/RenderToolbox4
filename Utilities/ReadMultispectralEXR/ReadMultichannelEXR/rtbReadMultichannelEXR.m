@@ -20,4 +20,12 @@ function [channelInfo, imageData] = rtbReadMultichannelEXR(exrFile)
 %%% RenderToolbox4 is released under the MIT License.  See LICENSE file.
 
 % delegate to the mex-function with a slightly different name
+
+%%
+if ieNotDefined('exrFile')
+    exrFile = which('TestSphereBlender.exr'); 
+end
+
 [channelInfo, imageData] = ReadMultichannelEXR(exrFile);
+
+end

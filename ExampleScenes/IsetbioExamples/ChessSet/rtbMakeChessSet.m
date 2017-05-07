@@ -33,7 +33,7 @@
 % directly.
 
 % Approximate time to render
-% Size = [200x200]
+% Size = [200x200],8 cores
 % Pinhole, 1024 pixel samples
 % Total time = ~300 seconds
 
@@ -45,10 +45,11 @@
 
 tic
 ieInit;
+ieDockerConfig;
 
 %% Choose batch renderer options.
-hints.imageWidth = 200;
-hints.imageHeight = 200;
+hints.imageWidth =  100;
+hints.imageHeight = 100;
 
 hints.recipeName = 'ChessSet';
 
