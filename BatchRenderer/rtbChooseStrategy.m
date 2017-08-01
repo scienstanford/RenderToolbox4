@@ -26,7 +26,9 @@ hints = parser.Results.hints;
 %% Choose the batch rendering strategy.
 if isobject(hints.batchRenderStrategy)
     strategy = hints.batchRenderStrategy;
-elseif 2 == exist(hints.batchRenderStrategy, 'file')
+elseif (ischar(hints.batchRenderStrategy) && (2 == exist(hints.batchRenderStrategy, 'file')))
+    % Added ischar() check for older versions of Matlab where the struct caused
+    % exist to throw an error
     constructorFunction = str2func(hints.batchRenderStrategy);
     strategy = feval(constructorFunction, hints);
 else

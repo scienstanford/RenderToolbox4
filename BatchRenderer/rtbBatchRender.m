@@ -1,22 +1,28 @@
 function outFiles = rtbBatchRender(nativeScenes, varargin)
 % Render multiple nativeScenes at once.
 %
-% outFiles = rtbBatchRender(nativeScenes)
-% Renders multiple renderer-native scene files in one batch.  scenes
-% must be a cell array of renderer-native scene descriptions or scene
+%      outFiles = rtbBatchRender(nativeScenes,varargin)
+%
+% Renders multiple renderer-native scene files in one batch.  
+%
+% Required input
+%  nativeScenes - a cell array of renderer-native scene descriptions or scene
 % files, such as those produced by rtbMakeSceneFiles().  All renderer-native
 % files should be intended for the same renderer.
 %
-% outFiles = rtbBatchRender(... 'hints', hints)
-% Specify a hints struct with with options that affect the rendering
-% process, as returned from rtbDefaultHints().  If hints is omitted,
-% default options are used.  For example:
+% Input parameter/values
+%   hints -  a hints struct with with options that affect the rendering process,
+%   as returned from rtbDefaultHints().  If hints is omitted, default options
+%   are used.  
+%
+%  For example:
 %   - hints.strategy specifies how to load and manipulate scene data (e.g.
 %   Collada vs Assimp).  The default is RtbAssimpStrategy.
 %   - hints.renderer specifies which renderer to target
 %
-% Renders each renderer-native scene in scenes, and writes a new mat-file
-% for each one.  Each mat-file will contain several variables including:
+% Renders each nativeScene and writes a new mat-file for each one.  Each
+% mat-file will contain several variables including: 
+%
 %   - multispectralImage - matrix of multi-spectral radiance data with size
 %   [height width n]
 %   - S - spectral band description for the rendering with elements [start
@@ -25,10 +31,12 @@ function outFiles = rtbBatchRender(nativeScenes, varargin)
 % height and width are pixel image dimensions and n is the number of
 % spectral bands in the image.  See the RenderToolbox4 wiki for more about
 % spectrum bands:
+%
 %  https://github.com/DavidBrainard/RenderToolbox4/wiki/Spectrum-Bands
 %
-% The each mat-file will also contain variables with metadata about how the
-% scene was made and rendererd:
+% The each mat-file will also contain metadata about how the scene was made and
+% rendered:
+%
 %   - scene - the renderer-native scene description (e.g. file name,
 %   Collada author info)
 %   - hints - the given hints struct, or default hints struct
@@ -38,30 +46,30 @@ function outFiles = rtbBatchRender(nativeScenes, varargin)
 %   - radiometricScaleFactor - scale factor that was used to bring renderer
 %   ouput into physical radiance units
 %
-% Returns a cell array of output mat-file names, with the same dimensions
-% as the given scenes.
-%
-% outFiles = rtbBatchRender(scenes, varargin)
+% Returns 
+%   outFiles - A cell array of output mat-file names, with the same dimensions
+%              as the input scenes.
 %
 %%% RenderToolbox4 Copyright (c) 2012-2016 The RenderToolbox Team.
 %%% About Us://github.com/RenderToolbox/RenderToolbox4/wiki/About-Us
 %%% RenderToolbox4 is released under the MIT License.  See LICENSE file.
 
+%%
 parser = inputParser();
 parser.addRequired('nativeScenes', @iscell);
 parser.addParameter('hints', rtbDefaultHints(), @isstruct);
+
 parser.parse(nativeScenes, varargin{:});
+
 nativeScenes = parser.Results.nativeScenes;
 hints = rtbDefaultHints(parser.Results.hints);
 
 %% Choose the batch rendering strategy.
 strategy = rtbChooseStrategy('hints', hints);
 
-
 %% Record toolbox and renderer version info.
 versionInfo = rtbVersionInfo();
 versionInfo.rendererVersionInfo = strategy.renderer.versionInfo();
-
 
 %% Render each scene file.
 fprintf('\nBatchRender started with isParallel=%d at %s.\n\n', ...
@@ -92,6 +100,7 @@ end
 fprintf('\nBatchRender finished at %s (%.1fs elapsed).\n\n', ...
     datestr(now(), 0), toc(renderTick));
 
+end
 
 %% Render a scene and save a .mat data file.
 function outFile = renderScene(strategy, scene, versionInfo, hints)
@@ -110,3 +119,5 @@ outPath = rtbWorkingFolder( ...
 outFile = fullfile(outPath, [imageName '.mat']);
 save(outFile, 'multispectralImage', 'S', 'radiometricScaleFactor', ...
     'hints', 'scene', 'versionInfo', 'commandResult');
+
+end

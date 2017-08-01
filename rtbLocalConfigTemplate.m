@@ -1,11 +1,10 @@
 %% Configure RenderToolbox4 system defaults.
 %
-% This script attempts to locate system resources and create Matlab
-% preferences necessary to use RenderToolbox4.
+% This script creates Matlab preferences necessary to use RenderToolbox4. The
+% are stored in 'RenderToolbox4'.
 %
-% For vanilla installations, like when installing on a fresh virutal
-% machine, this script should work out-of-the-box.  For custom
-% installations, you may need to copy and modify this script.
+% For fresh installations this script should work out-of-the-box.  For custom
+% installations, you may want to copy and modify this script.
 %
 % You should run this script whenever you want to make sure that
 % RenderToolbox4 is all set up.  This could be once, when you first install
@@ -24,8 +23,7 @@
 
 
 %% Matlab preferences for RenderToolbox4 default hints.
-myFolder = fullfile(rtbGetUserFolder(), 'render_toolbox');
-renderToolbox4.workingFolder = myFolder;
+renderToolbox4.workingFolder = fullfile(rtbGetUserFolder(), 'render_toolbox');
 renderToolbox4.recipeName = '';
 renderToolbox4.batchRenderStrategy = 'RtbAssimpStrategy';
 renderToolbox4.renderer = 'SampleRenderer';

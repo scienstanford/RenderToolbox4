@@ -2,10 +2,10 @@ function conditionsFile = rtbWriteConditionsFile(conditionsFile, names, values)
 %% Write conditions data to a text file.
 %
 % rtbWriteConditionsFile(conditionsFile, names, values)
-% Writes batch renderer condition variables with the given names and
+% Writes batch renderer condition variables with the sgiven names and
 % values to a new text file with the given conditionsFile name.  See the
 % RenderToolbox4 wiki for more about conditions files:
-%   https://github.com/DavidBrainard/RenderToolbox4/wiki/Conditions-File-Format
+%  https://github.com/RenderToolbox/RenderToolbox4/wiki/Conditions-File-Format
 %
 % Names will appear in the first line of the new file, separated by
 % tabs.  Each of the m rows of values will appear in a separate line,
