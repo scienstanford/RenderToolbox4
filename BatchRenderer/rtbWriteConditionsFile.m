@@ -2,17 +2,22 @@ function conditionsFile = rtbWriteConditionsFile(conditionsFile, names, values)
 %% Write conditions data to a text file.
 %
 % rtbWriteConditionsFile(conditionsFile, names, values)
-% Writes batch renderer condition variables with the sgiven names and
+%
+% Inputs
+%   conditionsFile - string
+%   names -  cell array of strings
+%   values - cell array (nConditions x nNames)
+%
+% Writes batch renderer condition variables with the given names and
 % values to a new text file with the given conditionsFile name.  See the
 % RenderToolbox4 wiki for more about conditions files:
 %  https://github.com/RenderToolbox/RenderToolbox4/wiki/Conditions-File-Format
 %
-% Names will appear in the first line of the new file, separated by
-% tabs.  Each of the m rows of values will appear in a separate line,
-% with elements separated by tabs.  So, the values for each variable will
+% Names appear in the first line of the new file, separated by tabs.  Each of
+% the row elements are separated by tabs.  So, the values for each variable will
 % appear in a tab-separated column.
 %
-% Attempts to convert numeric values to string, as needed.
+% Users VectorToString to convert numeric values to string, as needed.
 %
 % Returns the given conditionsFile file name, for convenience.
 %
@@ -27,6 +32,7 @@ parser.addRequired('conditionsFile', @ischar);
 parser.addRequired('names', @iscellstr);
 parser.addRequired('values', @iscell);
 parser.parse(conditionsFile, names, values);
+
 conditionsFile = parser.Results.conditionsFile;
 names = parser.Results.names;
 values = parser.Results.values;
